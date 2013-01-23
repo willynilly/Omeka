@@ -51,7 +51,7 @@ class Omeka_Plugin_Mvc
      * @param string $moduleName MVC module name.
      * @return void
      */
-    protected function addThemeDir($pluginDirName, $path, $themeType, $moduleName)
+    protected function _addThemeDir($pluginDirName, $path, $themeType, $moduleName)
     {
         if (!in_array($themeType, array('public','admin','shared'))) {
             return false;
@@ -173,15 +173,15 @@ class Omeka_Plugin_Mvc
         }
         
         if (is_dir($sharedDir)) {
-            $this->addThemeDir($pluginDirName, 'views/shared', 'shared', $moduleName);
+            $this->_addThemeDir($pluginDirName, 'views/shared', 'shared', $moduleName);
         }
         
         if (is_dir($adminDir)) {
-            $this->addThemeDir($pluginDirName, 'views/admin', 'admin', $moduleName);
+            $this->_addThemeDir($pluginDirName, 'views/admin', 'admin', $moduleName);
         }
 
         if (is_dir($publicDir)) {
-            $this->addThemeDir($pluginDirName, 'views/public', 'public', $moduleName);
+            $this->_addThemeDir($pluginDirName, 'views/public', 'public', $moduleName);
         }
     }
     

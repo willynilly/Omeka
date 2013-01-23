@@ -19,15 +19,15 @@ class TagsController extends Omeka_Controller_AbstractActionController
     public function editAction()
     {
         if (!empty($_POST)) {
-            $this->editTags();
+            $this->_editTags();
         }
         
-        $tags = $this->getTagsForAdministration();
+        $tags = $this->_getTagsForAdministration();
         
         $this->view->assign(compact('tags'));
     }
     
-    protected function getTagsForAdministration()
+    protected function _getTagsForAdministration()
     {
         $user = $this->getCurrentUser();
         
@@ -42,7 +42,7 @@ class TagsController extends Omeka_Controller_AbstractActionController
         return $tags;    
     }
     
-    protected function editTags()
+    protected function _editTags()
     {
         $oldTagId = $_POST['old_tag'];
         

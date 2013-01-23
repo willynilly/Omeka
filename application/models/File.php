@@ -85,7 +85,7 @@ class File extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Inte
      * @param array $post
      * @return array
      */
-    protected function filterPostData($post)
+    protected function _filterPostData($post)
     {
         $immutable = array('id', 'modified', 'added', 'authentication', 'filename', 
                            'original_filename', 'mime_type', 'type_os', 'item_id');

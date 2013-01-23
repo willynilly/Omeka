@@ -72,7 +72,7 @@ class Omeka_Db
         $logFor = array('fetchOne', 'fetchAll', 'prepare', 'query', 'fetchRow', 
                         'fetchAssoc', 'fetchCol', 'fetchPairs');
         if (in_array($m, $logFor)) {
-            $this->log($a[0]);
+            $this->_log($a[0]);
         }
         
         try {
@@ -261,7 +261,7 @@ class Omeka_Db
      *
      * @param string|Zend_Db_Select $sql
      */
-    protected function log($sql)
+    protected function _log($sql)
     {
         if ($this->_logger) {
             $this->_logger->debug((string) $sql);

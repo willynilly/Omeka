@@ -15,17 +15,17 @@ class Output_ItemRss2
     {
         $entries = array();
         foreach ($records as $record) {
-            $entries[] = $this->itemToRss($record);
+            $entries[] = $this->_itemToRSS($record);
             release_object($record);
         }
                 
-        $headers = $this->buildRSSHeaders();
+        $headers = $this->_buildRSSHeaders();
         $headers['entries'] = $entries;
         $feed = Zend_Feed::importArray($headers, 'rss');
         return $feed->saveXML();        
     }
     
-    protected function buildRSSHeaders()
+    protected function _buildRSSHeaders()
     {
         $headers = array();
         
@@ -49,7 +49,7 @@ class Output_ItemRss2
         return $headers;
     }
     
-    protected function buildDescription($item)
+    protected function _buildDescription($item)
     {
         $description = all_element_texts($item);
         
@@ -59,14 +59,14 @@ class Output_ItemRss2
         return $description;
     }
     
-    protected function itemToRSS($item)
+    protected function _itemToRSS($item)
     {        
         $entry = array();
         set_current_record('item', $item, true);
         
         // Title is a CDATA section, so no need for extra escaping.
         $entry['title'] = strip_formatting(metadata($item, array('Dublin Core', 'Title'), array('no_escape'=>true)));
-        $entry['description'] = $this->buildDescription($item);
+        $entry['description'] = $this->_buildDescription($item);
         
         $entry['link'] = xml_escape(record_url($item, null, true));
                 

@@ -128,7 +128,7 @@ class Collection extends Omeka_Record_AbstractRecord implements Zend_Acl_Resourc
      * @param array $post
      * @return array
      */
-    protected function filterPostData($post)
+    protected function _filterPostData($post)
     {
         $options = array('inputNamespace'=>'Omeka_Filter');
         

@@ -496,15 +496,15 @@ class Table_Item extends Omeka_Db_Table
 
     public function findPrevious($item)
     {
-        return $this->findNearby($item, 'previous');
+        return $this->_findNearby($item, 'previous');
     }
 
     public function findNext($item)
     {
-        return $this->findNearby($item, 'next');
+        return $this->_findNearby($item, 'next');
     }
 
-    protected function findNearby($item, $position = 'next')
+    protected function _findNearby($item, $position = 'next')
     {
         //This will only pull the title and id for the item
         $select = $this->getSelect();
@@ -523,7 +523,7 @@ class Table_Item extends Omeka_Db_Table
                 break;
 
             default:
-                throw new Omeka_Record_Exception( 'Invalid position provided to ItemTable::findNearby()!' );
+                throw new Omeka_Record_Exception( 'Invalid position provided to ItemTable::_findNearby()!' );
                 break;
         }
 

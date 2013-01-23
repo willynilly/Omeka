@@ -647,7 +647,7 @@ class Omeka_View_Helper_FileMarkup extends Zend_View_Helper_Abstract
     }
     // END DEFINED DISPLAY CALLBACKS
     
-    protected function getCallback($file, $options)
+    protected function _getCallback($file, $options)
     {
         $mimeType = $file->mime_type;
         $fileExtension = $file->getExtension();
@@ -676,7 +676,7 @@ class Omeka_View_Helper_FileMarkup extends Zend_View_Helper_Abstract
      * @param mixed $callback
      * @return array
      */
-    protected function getDefaultOptions($callback)
+    protected function _getDefaultOptions($callback)
     {
         $key = self::_getCallbackKey($callback);
         if (array_key_exists($key, self::$_callbackOptions)) {
@@ -694,7 +694,7 @@ class Omeka_View_Helper_FileMarkup extends Zend_View_Helper_Abstract
      * @param array $options Set of options passed to the rendering callback.
      * @return string HTML for displaying the file.
      */
-    protected function getHtml($file, $renderer, array $options)
+    protected function _getHtml($file, $renderer, array $options)
     {
         //Format the callback based on whether we can actually run it
         
@@ -721,11 +721,11 @@ class Omeka_View_Helper_FileMarkup extends Zend_View_Helper_Abstract
         // There is a chance that $props passed in could modify the callback
         // that is used.  Currently used to determine whether or not to display
         // an icon.
-        $callback = $this->getCallback($file, $props);   
+        $callback = $this->_getCallback($file, $props);   
         
-        $options = array_merge($this->getDefaultOptions($callback), $props);
+        $options = array_merge($this->_getDefaultOptions($callback), $props);
         
-        $html  = $this->getHtml($file, $callback, $options);
+        $html  = $this->_getHtml($file, $callback, $options);
         
         // Append a class name that corresponds to the MIME type.
         if ($wrapperAttributes) {

@@ -41,7 +41,7 @@ class Tag extends Omeka_Record_AbstractRecord {
             $this->addError('name', __('Tags must be given a name.'));
         }
         
-        if (!$this->fieldIsUnique('name')) {
+        if (!$this->_fieldIsUnique('name')) {
             $this->addError('name', __('That name is already taken for this tag.'));
         }
     }
@@ -52,10 +52,10 @@ class Tag extends Omeka_Record_AbstractRecord {
      *
      * @return bool
      */
-    protected function fieldIsUnique($field, $value = null)
+    protected function _fieldIsUnique($field, $value = null)
     {
         if ($field != 'name') {
-            return parent::fieldIsUnique($field, $value);
+            return parent::_fieldIsUnique($field, $value);
         } else {
             $db = $this->getDb();
             $sql = "

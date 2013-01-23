@@ -278,7 +278,7 @@ class Item extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Inte
      * @param array Dirty post data
      * @return array Clean post data
      */
-    protected function filterPostData($post)
+    protected function _filterPostData($post)
     {
         $options = array('inputNamespace'=>'Omeka_Filter');
         $filters = array(                         

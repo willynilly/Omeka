@@ -17,7 +17,7 @@ class ErrorController extends Omeka_Controller_AbstractActionController
         // These are the default script paths that need to be known to the app
         // @internal does setAssetPath() need to have this same value in 
         // Omeka_View::__construct()?
-        if ($this->isInDebugMode()) {            
+        if ($this->_isInDebugMode()) {            
             $this->view->setScriptPath(VIEW_SCRIPTS_DIR);
             $this->view->setAssetPath(VIEW_SCRIPTS_DIR, WEB_VIEW_SCRIPTS);
         }
@@ -25,17 +25,17 @@ class ErrorController extends Omeka_Controller_AbstractActionController
         $handler = $this->_getParam('error_handler');
         $e = $handler->exception;
         
-        if ($this->is404($e, $handler)) {
+        if ($this->_is404($e, $handler)) {
             return $this->_forward('not-found');
         }
         
-        if ($this->is403($e)) {
+        if ($this->_is403($e)) {
             return $this->_forward('forbidden');
         }
         
         $this->logException($e, Zend_Log::ERR);
         
-        return $this->renderException($e);
+        return $this->_renderException($e);
     }
     
     protected function _getException()
@@ -59,11 +59,11 @@ class ErrorController extends Omeka_Controller_AbstractActionController
         $this->view->badUri = $this->getRequest()->getRequestUri();
         
         // Render the error script that displays debugging info.
-        if ($this->isInDebugMode()) {
+        if ($this->_isInDebugMode()) {
             if (!($e = $this->_getException())) {
                 $e = new Omeka_Controller_Exception_404(__("Page not found."));
             }
-            $this->renderException($e);
+            $this->_renderException($e);
         } else {
             $this->render('404');
         }
@@ -74,11 +74,11 @@ class ErrorController extends Omeka_Controller_AbstractActionController
         $this->getResponse()->setHttpResponseCode(403);
         
         // Render the error script that displays debugging info.
-        if ($this->isInDebugMode()) {
+        if ($this->_isInDebugMode()) {
             if (!($e = $this->_getException())) {
                 $e = new Omeka_Controller_Exception_403(__("Access denied."));
             }
-            $this->renderException($e);
+            $this->_renderException($e);
         } else {
             $this->render('403');
         }
@@ -104,7 +104,7 @@ class ErrorController extends Omeka_Controller_AbstractActionController
      *
      * @return boolean
      */
-    protected function is404(Exception $e, $handler)
+    protected function _is404(Exception $e, $handler)
     {
         return ($e instanceof Omeka_Controller_Exception_404 
                 || $e instanceof Zend_View_Exception 
@@ -112,12 +112,12 @@ class ErrorController extends Omeka_Controller_AbstractActionController
                 || $handler->type == 'EXCEPTION_NO_ACTION');
     }
     
-    protected function is403(Exception $e)
+    protected function _is403(Exception $e)
     {
         return ($e instanceof Omeka_Controller_Exception_403);
     }
     
-    protected function renderException(Exception $e)
+    protected function _renderException(Exception $e)
     {
         $this->view->e = $e;
         $environment = $this->getInvokeArg('bootstrap')->getApplication()->getEnvironment();
@@ -127,7 +127,7 @@ class ErrorController extends Omeka_Controller_AbstractActionController
         $this->render('index');
     }
     
-    protected function isInDebugMode()
+    protected function _isInDebugMode()
     {
         $config = $this->getInvokeArg('bootstrap')->getResource('Config');
         return (bool) $config->debug->exceptions;

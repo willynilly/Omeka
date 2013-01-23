@@ -166,7 +166,7 @@ class UsersController extends Omeka_Controller_AbstractActionController
         
         $user->setPostData($_POST);
         if ($user->save(false)) {
-            if ($this->sendActivationEmail($user)) {
+            if ($this->_sendActivationEmail($user)) {
                 $this->_helper->flashMessenger(
                     __('The user "%s" was successfully added!', $user->username),
                     'success'
@@ -280,7 +280,7 @@ class UsersController extends Omeka_Controller_AbstractActionController
      * @param User $user
      * @return boolean True if the email was successfully sent, false otherwise.
      */
-    protected function sendActivationEmail($user)
+    protected function _sendActivationEmail($user)
     {
         $ua = new UsersActivations;
         $ua->user_id = $user->id;

@@ -30,7 +30,7 @@ class ItemType extends Omeka_Record_AbstractRecord
      *
      * @return array The array of element objects associated with this item type.
      */
-    protected function getElements()
+    public function getElements()
     {
         return $this->getTable('Element')->findByItemType($this->id);
     }
@@ -42,7 +42,7 @@ class ItemType extends Omeka_Record_AbstractRecord
      * @param boolean $recent  Whether or not the items are recent.
      * @return array The items associated with the item type.
      */
-    protected function getItems($count = 10, $recent=true)
+    public function getItems($count = 10, $recent=true)
     {
         $params = array('type'=>$this->id);
         if ($recent) {
@@ -67,7 +67,7 @@ class ItemType extends Omeka_Record_AbstractRecord
             $this->addError('name', __('The item type name must have between %1$s and %2$s characters.', self::ITEM_TYPE_NAME_MIN_CHARACTERS, self::ITEM_TYPE_NAME_MAX_CHARACTERS) );
         }
 
-        if (!$this->fieldIsUnique('name')) {
+        if (!$this->_fieldIsUnique('name')) {
             $this->addError('name', __('The item type name must be unique.'));
         }
     }
@@ -77,7 +77,7 @@ class ItemType extends Omeka_Record_AbstractRecord
      *
      * @return void
      */
-    protected function filterPostData($post)
+    protected function _filterPostData($post)
     {
         $options = array('inputNamespace'=>'Omeka_Filter');
 

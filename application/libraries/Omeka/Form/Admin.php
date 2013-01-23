@@ -78,7 +78,7 @@ class Omeka_Form_Admin extends Omeka_Form
     
     public function addElementToEditGroup($element, $name, $options = null)
     {     
-        return $this->addElementToDisplayGroup('edit', $element, $name, $options );
+        return $this->_addElementToDisplayGroup('edit', $element, $name, $options );
     }
 
     /**
@@ -92,7 +92,7 @@ class Omeka_Form_Admin extends Omeka_Form
     
     public function addElementToSaveGroup($element, $name = null, $options = null)
     {
-        return $this->addElementToDisplayGroup('save', $element, $name, $options );
+        return $this->_addElementToDisplayGroup('save', $element, $name, $options );
     }
 
     /**
@@ -109,7 +109,7 @@ class Omeka_Form_Admin extends Omeka_Form
      * @return Omeka_Form_Admin
      */
     
-    protected function addElementToDisplayGroup($group, $element, $name = null, $options = null)    
+    protected function _addElementToDisplayGroup($group, $element, $name = null, $options = null)    
     {
         
         if(is_string($element) && is_null($name)) {

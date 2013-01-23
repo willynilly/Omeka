@@ -54,7 +54,7 @@ class User extends Omeka_Record_AbstractRecord
         }
     }
     
-    protected function filterPostData($post)
+    protected function _filterPostData($post)
     {
         $options = array('inputNamespace'=>'Omeka_Filter');
         
@@ -95,7 +95,7 @@ class User extends Omeka_Record_AbstractRecord
             $this->addError('email', __(self::INVALID_EMAIL_ERROR_MSG));
         }
             
-        if (!$this->fieldIsUnique('email')) {
+        if (!$this->_fieldIsUnique('email')) {
             $this->addError('email', __(self::CLAIMED_EMAIL_ERROR_MSG));            
         }
         
@@ -109,7 +109,7 @@ class User extends Omeka_Record_AbstractRecord
             $this->addError('username', __('The username "%1$s" must be between %2$s and %3$s characters.',$this->username, self::USERNAME_MIN_LENGTH, self::USERNAME_MAX_LENGTH));
         } else if (!Zend_Validate::is($this->username, 'Alnum')) {
             $this->addError('username', __("The username must be alphanumeric."));
-        } else if (!$this->fieldIsUnique('username')) {
+        } else if (!$this->_fieldIsUnique('username')) {
             $this->addError('username', __("'%s' is already in use. Please choose another username.", $this->username));
         }
     }

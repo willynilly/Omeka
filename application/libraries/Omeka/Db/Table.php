@@ -486,7 +486,7 @@ class Omeka_Db_Table
         // Would use fetchAll() but it can be memory-intensive.
         $objs = array();
         foreach ($data as $k => $row) {
-            $objs[$k] = $this->recordFromData($row);
+            $objs[$k] = $this->_recordFromData($row);
         }
         
         return $objs;
@@ -503,7 +503,7 @@ class Omeka_Db_Table
     public function fetchObject($sql, array $params=array())
     {
         $row = $this->getDb()->fetchRow($sql, $params);
-        return !empty($row) ? $this->recordFromData($row): null;
+        return !empty($row) ? $this->_recordFromData($row): null;
     }
     
     /**
@@ -512,7 +512,7 @@ class Omeka_Db_Table
      * @param array $data A keyed array representing a row from the database.
      * @return Omeka_Record_AbstractRecord
      */
-    protected function recordFromData(array $data)
+    protected function _recordFromData(array $data)
     {
         $class = $this->_target;
         $obj = new $class($this->_db);

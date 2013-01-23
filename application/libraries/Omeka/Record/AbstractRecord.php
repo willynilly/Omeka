@@ -134,7 +134,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
         
         $this->_errors = new Omeka_Validate_Errors;
         $this->_initializeMixins();
-        $this->construct();
+        $this->_afterConstruct();
     }
     
     /**
@@ -146,7 +146,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      * @todo Should __construct() be declared final if this the preferred method?
      * @return void
      */
-    protected function construct() {}
+    protected function _afterConstruct() {}
     
     /**
      * Unsets mixins, which contain circular references, upon record destruction
@@ -200,14 +200,14 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      * Delegate unknown method calls to Omeka_Record_Mixin_AbstractMixin 
      * instances.
      * 
-     * @see Omeka_Record_AbstractRecord::delegateToMixins()
+     * @see Omeka_Record_AbstractRecord::_delegateToMixins()
      * @param string $m Method name.
      * @param array $a Method arguments.
      * @return mixed
      */
     public function __call($m, $a)
     {
-        return $this->delegateToMixins($m, $a);
+        return $this->_delegateToMixins($m, $a);
     }
     
     /**
@@ -229,7 +229,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      * @return mixed If $all is false, the return value from the invoked method.  
      * Otherwise there is no return value.
      */
-    protected function delegateToMixins($method, $args = array(), $all = false)
+    protected function _delegateToMixins($method, $args = array(), $all = false)
     {
         $methodFound = false;
         
@@ -271,13 +271,13 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      * @param $event string camelCased name for the event i.e. beforeDelete
      * @param $args array optional array of arguments for the callback
      */
-    protected function runCallbacks($event, $args = array())
+    protected function _runCallbacks($event, $args = array())
     {
         // Callback from within the record
         call_user_func(array($this, $event), $args);
          
         // Module callbacks
-        $this->delegateToMixins($event, array($args), true);
+        $this->_delegateToMixins($event, array($args), true);
              
         // Format the name of the plugin hook so it's in all lowercase with 
         // underscores. Taken from Doctrine::tableize()
@@ -528,7 +528,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
             $callbackArgs['insert'] = true;
         }
         
-        $this->runCallbacks('beforeSave', $callbackArgs);
+        $this->_runCallbacks('beforeSave', $callbackArgs);
         
         if (!$this->isValid()) {
             if ($throwIfInvalid) {
@@ -547,7 +547,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
         }
         $this->id = $insertId;
         
-        $this->runCallbacks('afterSave', $callbackArgs);
+        $this->_runCallbacks('afterSave', $callbackArgs);
         
         return true;
     }
@@ -577,7 +577,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
             return false;
         }
         
-        $this->runCallbacks('beforeDelete');
+        $this->_runCallbacks('beforeDelete');
                 
         // Delete has an extra template method that is separate from the 
         // callbacks. This is because the callbacks execute prior to actually 
@@ -592,7 +592,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
         $query = "DELETE FROM $table WHERE {$table}.id = ? LIMIT 1";
         $this->getDb()->delete($table, 'id = '  . (int) $this->id);
         
-        $this->runCallbacks('afterDelete');
+        $this->_runCallbacks('afterDelete');
         $this->id = null;
     }
     
@@ -734,7 +734,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      * @param array $post
      * @return array Filtered post data.
      */
-    protected function filterPostData($post) 
+    protected function _filterPostData($post) 
     {
         return $post;
     }
@@ -747,7 +747,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      */
     public function setPostData($post)
     {
-        $post = new ArrayObject($this->filterPostData($post));
+        $post = new ArrayObject($this->_filterPostData($post));
         
         if (array_key_exists('id', $post)) {
             unset($post['id']);
@@ -767,7 +767,7 @@ abstract class Omeka_Record_AbstractRecord implements ArrayAccess
      * given field.
      * @return boolean
      */
-    protected function fieldIsUnique($field, $value = null)
+    protected function _fieldIsUnique($field, $value = null)
     {
         $value = $value ? $value : $this->$field;
 

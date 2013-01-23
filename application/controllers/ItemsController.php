@@ -108,7 +108,7 @@ class ItemsController extends Omeka_Controller_AbstractActionController
         }
     }
 
-    protected function  _getDeleteSuccessMessage($item)
+    protected function _getDeleteSuccessMessage($item)
     {
         $itemTitle = $this->_getElementMetadata($item, 'Dublin Core', 'Title');
         if ($itemTitle != '') {

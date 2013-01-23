@@ -26,7 +26,7 @@ class Table_Element extends Omeka_Db_Table
 
         $select->where('element_sets.record_type = ? OR element_sets.record_type IS NULL', $recordTypeName);
         
-        $this->orderElements($select);
+        $this->_orderElements($select);
         
         return $this->fetchObjects($select);
     }
@@ -60,7 +60,7 @@ class Table_Element extends Omeka_Db_Table
         return array('elements.id', 'elements.name');
     }
         
-    protected function orderElements($select)
+    protected function _orderElements($select)
     {
         // ORDER BY e.order ASC, ISNULL(e.order), es.name ASC
         // This SQL statement will return results ordered each element set,
@@ -85,7 +85,7 @@ class Table_Element extends Omeka_Db_Table
         
         $select->where('element_sets.name = ?', (string) $elementSet);
         
-        $this->orderElements($select);
+        $this->_orderElements($select);
         
         return $this->fetchObjects($select);       
     }

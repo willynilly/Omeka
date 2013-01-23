@@ -233,7 +233,7 @@ class Omeka_Controller_Plugin_ViewScripts extends Zend_Controller_Plugin_Abstrac
         $this->_addSharedViewsDir();
         
         $view = $this->_getView();
-        if ($themeName = $this->getThemeOption($theme)) {
+        if ($themeName = $this->_getThemeOption($theme)) {
             $scriptPath = $this->_baseThemePath . '/' . $themeName;
             $view->addScriptPath($scriptPath);
             $view->addAssetPath($scriptPath, $this->_webBaseThemePath . '/' . $themeName);            
@@ -248,7 +248,7 @@ class Omeka_Controller_Plugin_ViewScripts extends Zend_Controller_Plugin_Abstrac
      */
     protected function _addOverridePathForPlugin($theme, $pluginModuleName)
     {
-        if (($themeName = $this->getThemeOption($theme))) {
+        if (($themeName = $this->_getThemeOption($theme))) {
             $view = $this->_getView();
             $scriptPath = $this->_baseThemePath . '/' . $themeName . '/' . $pluginModuleName;
             $view->addScriptPath($scriptPath);
@@ -263,7 +263,7 @@ class Omeka_Controller_Plugin_ViewScripts extends Zend_Controller_Plugin_Abstrac
      * @param string $type Currently either 'admin' or 'public'.
      * @return string
      */
-    protected function getThemeOption($type)
+    protected function _getThemeOption($type)
     {
         return Theme::getCurrentThemeName($type);
     }

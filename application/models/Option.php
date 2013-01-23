@@ -25,7 +25,7 @@ class Option extends Omeka_Record_AbstractRecord {
             $this->addError('name', __('Each option must have a unique name.'));
         }
         
-        if (!$this->fieldIsUnique('name')) {
+        if (!$this->_fieldIsUnique('name')) {
             $this->addError('name', __('Each option must have a unique name.'));
         }
     }
